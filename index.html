@@ -1,0 +1,87 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="assets/css/mdb.min.css">
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+<body>
+        <div class="container center">
+            <div class="background">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1><b>The Alphabet Detective!</b></h1>
+                        <p><b>Hardee Boys and Nancy Drews grab your thinking caps because it's about to get Phoentic!</b></p>
+                        <p><b>Ya win some: <span id="win"></span></b></p>
+                        <p><b>Ya lose some: <span id="lost"></span></b></p>
+                        <p><b>Guesses left: <span id="guessesLeft"></span></b></p>
+                        <p><b>Your guesses so far: <span id="guesses"></span></b></p>
+                            <audio controls>
+                                    <source src="assets\Sound\AlphabetAerobics.mp3" type="audio/mp3">
+                            </audio>                                 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            var win = 0;
+            var lost = 0;
+            var guessesLeft = 9;
+            var guesses = [];
+            var computerGuess;
+            document.onkeyup = function(event) {
+                var userGuess = event.key;
+                if ((userGuess === computerGuess)) {
+                    win++; 
+                    guessesLeft = 9; 
+                    computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+                    guesses = [];
+                } else { 
+                    if (!isDuplicate(userGuess, guesses)) {
+                        console.log("is not dup: " + !isDuplicate(userGuess, guesses));
+                        guessesLeft--;
+                        if (guessesLeft === 8) {
+                            guesses.push(userGuess);
+                        } else {
+                            guesses.push(userGuess);
+                            guesses.innerHTML = guesses.join(', ');
+                        }
+                    }
+                    
+                }
+                if ((guessesLeft === 0)) {
+                    lost++; 
+                    guessesLeft = 9;
+                    computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+                    guesses = [];
+                }
+                document.querySelector("#win").innerHTML = win;
+                document.querySelector("#lost").innerHTML = lost;
+                document.querySelector("#guessesLeft").innerHTML = guessesLeft;
+                document.querySelector("#guesses").innerHTML = guesses;
+            }
+            var isDuplicate = function(userGuess, guesses) {
+                for (var i = 0; i < guesses.length; i++){
+                    if (userGuess === guesses[i]) {
+                        return true;
+                    }
+                }
+            }
+          </script>
+        
+        </body>
+        
+        </html>
